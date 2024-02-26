@@ -1,0 +1,32 @@
+import requests
+import json
+
+def run_sonarqube_analysis(project_key, project_name, project_version, source_directory):
+    # SonarQube server URL
+    sonarqube_url = 'http://localhost:9000/api/projects/create'
+
+    # SonarQube analysis properties
+    analysis_properties = {
+        'projectKey': project_key,
+        'projectName': project_name,
+        'projectVersion': project_version,
+        'projectBaseDir': source_directory,
+        'language': 'py',
+        'sourceEncoding': 'UTF-8'
+    }
+
+    # Send POST request to SonarQube API to start analysis
+    response = requests.post(sonarqube_url, data=json.dumps(analysis_properties))
+
+    if response.status_code == 200:
+        print('SonarQube analysis started successfully.')
+    else:
+        print(f'Failed to start SonarQube analysis. Status code: {response.status_code}')
+
+# Example usage:
+project_key = 'my_project_key'
+project_name = 'My Project'
+project_version = '1.0'
+source_directory = '/path/to/your/python/source/code'
+
+run_sonarqube_analysis(project_key, project_name, project_version, source_directory)
